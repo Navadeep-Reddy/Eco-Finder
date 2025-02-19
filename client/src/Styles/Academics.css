@@ -1,0 +1,57 @@
+.container, .container1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container{
+    margin: 0 auto;
+    width: 90%;
+    margin-top: 80px;
+}
+
+.container1{
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 80px;
+    justify-content: center;
+}
+
+.bott{
+    margin: 0 1.8%;
+}
+
+.program{
+    flex-basis: 31%;
+    position: relative;
+}
+
+.program img{
+    
+    min-height: 100%;
+    display: block;
+    border-radius: 10px;
+}
+
+.caption{
+    background: rgb(135, 142, 186, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    font-size: 25px;
+    top: 0;
+    bottom: 0;
+    left:0;
+    right: 0;
+    opacity: 0;
+    border-radius: 10px;
+    transition: 0.4s;
+    padding-top: 70%;
+}
+
+.caption:hover{
+    opacity: 1;
+    padding: 0;
+}

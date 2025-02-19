@@ -1,0 +1,71 @@
+.testimonials{
+    margin: 0 15%;
+    margin-top: 40px;
+    position: relative;
+    display: flex;
+}
+
+.left-butt, .right-butt{
+    font-size: 300%;
+    position: absolute;
+    cursor: pointer;
+    top: 45%;
+}
+
+.left-butt{
+    right: 100%;
+    
+}
+
+.right-butt{
+    left: 100%;
+}
+
+.slider{
+   overflow: hidden;
+   height: 100%;
+}
+
+.slider ul {
+    display: flex;
+    width: 200%;
+    overflow-x: hidden;
+    transition: 0.5s;
+    align-items: stretch; /* Changed from center to stretch */
+    height: 100%;
+  }
+  
+  .slider ul li {
+    width: 50%;
+    padding: 20px;
+    display: flex; /* Added */
+    align-items: center;
+  }
+
+.user-box {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    border-radius: 10px;
+    line-height: 1.4;
+    height: 100%; /* This ensures all boxes take full height of their container */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.user-box p {
+    flex-grow: 1; /* This allows the paragraph to expand and fill available space */
+}
+
+.user-box img{
+    width: 65px;
+    border-radius: 50%;
+    border: solid 4px #0d4ba0;
+    margin-right: 10px;
+}
+
+.user-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 15px;
+}

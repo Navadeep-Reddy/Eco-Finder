@@ -1,0 +1,24 @@
+.about-left{
+    flex-basis: 40%;
+    position: relative;
+}
+
+.about-right{
+    flex-basis: 56%;
+}
+
+.play-icon{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    color: #0d4ba0;
+    height: 100%;
+    width: 100%;
+}
+
+.play-butt{
+    font-size: 500%;
+    opacity: 0.9;
+}
