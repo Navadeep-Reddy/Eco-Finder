@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express();
 const port = 3000;
-const healthRouter = require('./src/router')
+const ecoRouter = require('./src/router')
 
 // CORS Configuration
 const corsOptions = {
@@ -22,7 +22,7 @@ app.options('*', cors(corsOptions));
 // Other middleware
 app.use(express.json());
 
-app.use("/health/api/v1", healthRouter)
+app.use("/eco/api/v1", ecoRouter)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
