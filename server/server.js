@@ -4,6 +4,16 @@ const app = express();
 const port = 3000;
 const ecoRouter = require('./src/router')
 
+// Add this near the top of your server.js
+const fs = require('fs');
+const path = require('path');
+
+// Create uploads directory if it doesn't exist
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)){
+    fs.mkdirSync(uploadsDir);
+}
+
 // CORS Configuration
 const corsOptions = {
     origin: 'http://localhost:5173',

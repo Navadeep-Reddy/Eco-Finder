@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const router = Router();
-const controller = require('./controller');
+const { postScore, uploadMiddleware } = require('./controller');
 
-router.post('/score', controller.postScore)
-
+// Use both the upload middleware and the controller
+router.post('/score', uploadMiddleware, postScore);
 
 module.exports = router;

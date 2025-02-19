@@ -5,11 +5,10 @@ import Hero from './components/Hero';
 import Academics from './components/Academics';
 import About from './components/About'
 import Title from './components/Title';
-import Gallery from './components/Gallery';
-import Testi from './components/Testi';
 import Contact from './components/Contact';
 import Footer from './components/Footer'
 import Search from './components/Search';
+import ImageVerdict from './components/ImageVerdict';
 
 const App = () => {
   return (
@@ -20,11 +19,9 @@ const App = () => {
       <Search />
       <Title Title={"QUICK ACCESS"} SubTitle={"Trusted Products"}/>
       <Academics />
+      <Title Title={"IMAGE ECO-ANALYSER"} SubTitle={"Upload Product Image"}/>
+      <ImageVerdict />
       <About />
-      {/* <Title Title={'GALLERY'} SubTitle={'Campus Photos'}/>
-      <Gallery />
-      <Title Title={"TESTIMONIALS"} SubTitle={"What Student Says"} />
-      <Testi /> */}
       <Title Title={"CONTACT US"} SubTitle={"Get in Touch"} />
       <Contact /> 
       <Footer />

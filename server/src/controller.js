@@ -1,51 +1,105 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI("AIzaSyC6cXSCXkwUlLxBjxG-KGMCDjFzV6lsoTc"); // Replace with your actual API key
+const fs = require("fs");
+const multer = require("multer");
+
+// Replace with your actual Gemini API key
+const genAI = new GoogleGenerativeAI("AIzaSyC6cXSCXkwUlLxBjxG-KGMCDjFzV6lsoTc");
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
+// Multer setup for handling image uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Make sure your uploads directory exists
+const ensureUploadsDir = () => {
+  if (!fs.existsSync('uploads')) {
+    fs.mkdirSync('uploads');
+  }
+};
+
+// Call this when your server starts
+ensureUploadsDir();
+
+// The actual controller function
 const postScore = async (req, res) => {
   try {
-    const { ocrText } = req.body; // Extract OCR text from request body
+    if (!req.file) {
+      return res.status(400).json({ error: "No image uploaded" });
+    }
 
-    const structuredPrompt = `
-Analyze the following product label information and determine its eco-friendliness based on its ingredients, certifications, and packaging details.
+    console.log("Received file:", req.file);
 
-**Product Information (Extracted from OCR):**  
-"${ocrText}"
+    // Read the image file and convert to Base64
+    const imageBuffer = fs.readFileSync(req.file.path);
+    const base64Image = imageBuffer.toString("base64");
+    
+    // Clean up the uploaded file
+    fs.unlinkSync(req.file.path);
 
-### Evaluation Criteria:  
-1. **Ingredients Impact:** Check for harmful substances (e.g., microplastics, palm oil, parabens) and highlight them if present.  
-2. **Certifications:** Identify if the product mentions eco-certifications (e.g., USDA Organic, Fair Trade, Rainforest Alliance).  
-3. **Packaging Sustainability:** If packaging details are available, determine if it’s recyclable, biodegradable, or plastic-heavy.  
-4. **Overall Eco-Score (1-10):** Provide an eco-score based on the above factors.  
+    const requestBody = {
+      contents: [
+        {
+          parts: [
+            {
+              inline_data: {
+                mime_type: req.file.mimetype,
+                data: base64Image,
+              },
+            },
+            {
+              text: `
+Analyze this image and determine its eco-friendliness.
 
-### **Response Format (Strictly JSON)**:  
+### **Evaluation Criteria:**  
+1. **Ingredients Impact:** Identify harmful substances like microplastics, palm oil, or parabens.  
+2. **Certifications:** Detect eco-certifications such as USDA Organic, Fair Trade, or Rainforest Alliance.  
+3. **Packaging Sustainability:** Assess recyclability, biodegradability, or plastic content.  
+4. **Overall Eco-Score (1-10):** Provide a rating based on sustainability.
+
+### **Response Format (Strict JSON)**:
 {
   "ecoScore": (1-10),
   "verdict": "Short summary of sustainability",
-  "suggestions": "Actionable recommendations for more eco-friendly alternatives"
+  "suggestions": "Actionable recommendations for eco-friendly alternatives"
 }
 
-Ensure the response is **valid JSON**, with no additional text, explanations, or markdown formatting.
-`;
+Return **only JSON output**, without explanations or markdown formatting.
+            `,
+            },
+          ],
+        },
+      ],
+    };
 
-    const response = await model.generateContent(structuredPrompt);
+    const response = await model.generateContent(requestBody);
     let textResponse = response.response.text();
 
-    // Extract JSON from the AI response by removing any markdown or unwanted text
-    const jsonMatch = textResponse.match(/\{[\s\S]*\}/); // Extract JSON content
+    // Extract JSON from AI response
+    const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       throw new Error("AI response does not contain valid JSON.");
     }
 
-    const jsonResponse = JSON.parse(jsonMatch[0]); // Convert to JSON object
+    const jsonResponse = JSON.parse(jsonMatch[0]);
+    console.log("Processed response:", jsonResponse);
 
-    return res.json(jsonResponse); // Send a valid JSON response
+    return res.json(jsonResponse);
   } catch (error) {
     console.error("Error details:", error);
-    return res.status(500).json({ error: "Failed to get eco-score", details: error.message });
+    return res.status(500).json({ error: "Failed to process image", details: error.message });
   }
 };
 
-module.exports = {
+// Export both the controller and the middleware
+module.exports = { 
   postScore,
+  uploadMiddleware: upload.single('image') // This is important!
 };
