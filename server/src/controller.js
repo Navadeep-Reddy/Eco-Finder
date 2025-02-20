@@ -6,6 +6,20 @@ const multer = require("multer");
 const genAI = new GoogleGenerativeAI("AIzaSyC6cXSCXkwUlLxBjxG-KGMCDjFzV6lsoTc");
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://Navadeep:ObkEeEdXvdNfEqlh@userdata.4xm3b.mongodb.net/?retryWrites=true&w=majority&appName=UserData";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+const db = client.db('ecofinder');
+
 // Multer setup for handling image uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
