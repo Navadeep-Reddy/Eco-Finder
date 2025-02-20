@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { Search as SearchIcon } from 'lucide-react';
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ const Search = () => {
           <button
             type="submit"
             className="absolute right-3 px-4 py-1.5 bg-NewAccent text-white rounded-full hover:bg-NewComp transition-colors duration-300 text-sm font-medium"
+            onClick={() => {navigate('/login');}}
           >
             Search
           </button>
