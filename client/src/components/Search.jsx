@@ -18,7 +18,7 @@ const Search = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Enter Product Name.."
+            placeholder="Enter Product Name Or Description.."
             className="w-full px-12 py-3 bg-white rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-NewComp transition-all duration-300 placeholder-gray-400"
           />
           <SearchIcon 

@@ -15,12 +15,12 @@ const App = () => {
     <div >
       <Navbar />
       <Hero />
+      <Title Title={"IMAGE ECO-ANALYSER"} SubTitle={"Upload Product Image"}/>
+      <ImageVerdict />  
       <Title Title={"ECO-FRIENDLY PRODUCTS"} SubTitle={"Discover Alternatives"}/>
       <Search />
       <Title Title={"QUICK ACCESS"} SubTitle={"Trusted Products"}/>
       <Academics />
-      <Title Title={"IMAGE ECO-ANALYSER"} SubTitle={"Upload Product Image"}/>
-      <ImageVerdict />
       <About />
       <Title Title={"CONTACT US"} SubTitle={"Get in Touch"} />
       <Contact /> 
